@@ -33,8 +33,8 @@ action :allow do
       ssh-keyscan -p #{new_resource.port} #{new_resource.host} >> #{new_resource.local_known_hosts}
       exit 0
     }
+    not_if %{ ssh-keygen -F #{new_resource.host} -f #{new_resource.local_known_hosts} | grep -c found }
   end
-  not_if %{ ssh-keygen -F #{new_resource.host} -f #{new_resource.local_known_hosts} | grep -c found }
 end
 
 action :copy do
